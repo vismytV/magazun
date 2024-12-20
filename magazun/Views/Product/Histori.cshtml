@@ -1,0 +1,105 @@
+﻿@model IEnumerable<magazun.Models.Product>
+
+@{
+	var orders = ViewBag.Orders as List<magazun.Models.Order>;
+	//var ordersProduct = ViewBag.Orders as List<magazun.Models.OrderProduct>;
+
+	string lastName = "";
+	string firstName = "";
+	string login_user1 = "";
+	string pasw1 = "";
+
+	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
+
+	string a = TempData["error1"].ToString();
+	if (a != "")
+	{
+		<script>
+			alert(@Json.Serialize(TempData["error1"]));
+		</script>
+	}
+	else
+	{
+		a = TempData["role"].ToString();
+		if (a == "user")
+		{
+			pokaz_button_zamovlenny = "block";
+		}
+
+		if (a != "")
+		{
+			lastName = TempData["lastName"].ToString();
+			firstName = TempData["firstName"].ToString();
+			login_user1 = TempData["login_user"].ToString();
+			pasw1 = TempData["pasw"].ToString();
+		}
+	}
+}
+
+<script src="/js/start.js"></script>
+
+<div>
+	<table class="table">
+		<tr>
+			<td align="center">
+				<h2>
+					<em><span style="margin-right:50px">@lastName @firstName</span></em>
+					Вітаємо на сайті NEW_SHOP
+				</h2>
+				
+			</td>
+
+			<td align="right">
+				<form id="nazad" method="post" asp-action="Index_product">
+					<input name="login_user" id="login_user" type="text" value="@login_user1" hidden />
+					<input name="pasw" id="pasw" type="text" value="@pasw1" hidden />
+				<a title="назад"  >
+						<img src="~/img/nazad.PNG" width="40px" style="cursor:pointer" onclick="nazad_index2()"/>
+					</a>
+				</form> 
+				</td>
+		</tr>
+	</table>
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>
+					Дата
+				</td>
+				<td >
+					Назва товару
+				</td>
+				<td width="100px">
+					Ціна
+				</td>
+			</tr>
+			
+		</thead>
+		<tbody>
+			@{
+				foreach (var item in orders)
+				{
+					<tr>
+						<td>
+							@item.OrderDate
+						</td>
+						<td>
+							<ul>
+								@foreach (var orderProduct in item.OrderProducts)
+								{
+									<li>@orderProduct.Product.Name - @orderProduct.Product.Price $</li>
+								}
+							</ul>
+						</td>
+						<td>
+							@item.TotalAmount
+						</td>
+					</tr>
+				}
+			}
+			
+		</tbody>
+	</table>
+</div>
+

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<magazun.Models.Product>
+
+@{
+	string lastName = "";
+	string firstName = "";
+
+	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
+
+	string role = TempData["error1"].ToString();
+	if ( role!= "")
+	{
+		<script>
+			alert(@Json.Serialize(TempData["error1"]));
+		</script>
+	}
+	else  
+	{
+		role = TempData["role"].ToString();
+		if (role == "user")
+		{
+			pokaz_button_zamovlenny = "block";
+		}
+		
+		if (role != "")
+		{
+			lastName = TempData["lastName"].ToString();
+			firstName = TempData["firstName"].ToString();
+		}		
+	}
+}
+
+<script src="/js/start.js"></script>
+
+<div id="all">
+<div >
+	<table class="table">
+		<tr>
+			<td align="center">
+					<h2><em><span style="margin-right:50px">@lastName @firstName</span></em>
+						Вітаємо на сайті NEW_SHOP</h2>
+					<form action="@Url.Action("Histori", "Product")" method="post">
+						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
+						<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
+						<input name="role1" id="role1" type="text" value="@role" hidden />
+					<button style="margin-left:30px; display:@pokaz_button_zamovlenny;"
+					   class="btn btn-link" type="submit">Історія покупок</button>
+					</form >
+			</td>
+			
+			<td align="right">
+					<a class="btn btn-link " id="vxid" onclick="vxid1()">Вхід</a>
+					<a class="btn btn-link " id="reestr" style="margin-left: 10px">Реєстрація</a>
+			</td>
+		</tr>
+	</table>
+	<a style=" display:@pokaz_button_zamovlenny; margin-left:20px;" class="btn btn-success">Зробити замовлення </a>
+	
+</div>
+
+<div>
+	<table class="table" width="100%">
+		<thead>
+			<th id="th_1" align="center" width="400">Назва товару</th>
+			<th id="th_1" align="center" width="100">Ціна</th>
+			<th id="th_1" align="center">Опис</th>
+		<th id="th_1" align="center" style="display:@pokaz_button_zamovlenny;width:100px;">
+			Додати
+			</th>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.Name</td>
+					<td>@item.Price</td>
+					<td>@item.Description</td>
+					<td>
+						<input type="checkbox" id="checkbox_1" style="display:@pokaz_button_zamovlenny">
+					</td>
+					
+				</tr>
+			}
+			
+		</tbody>
+	</table>
+	
+	
+</div>
+
+</div>
+
+<div id="vxid_user" style="display:none">
+	<h2>Вітаємо на сайті NEW_SHOP</h2>
+	<strong>Реєстрація:</strong>
+	<form asp-action="Index_product" method="post">
+	<div>
+		
+		<span>Введіть логін: </span>
+			<input name="login_user" id="login_user" onkeyup="aktiv_button()" type="text" required />
+
+		<span >Введіть пароль: </span>
+			<input name="pasw" id="pasw" type="password" onkeyup="aktiv_button()" required />
+	</div>
+	<div>
+			<button id="bt_vxod" class="btn btn-success" disabled type="submit">Зайти</button>
+	</div>
+	</form>
+</div>
