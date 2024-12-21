@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<magazun.Models.Product>
 
 @{
+	int kol_tovar = 0;
 	string lastName = "";
 	string firstName = "";
 
@@ -25,13 +26,20 @@
 		{
 			lastName = TempData["lastName"].ToString();
 			firstName = TempData["firstName"].ToString();
+
 		}		
 	}
 }
 
 <script src="/js/start.js"></script>
 
+@* дані для передачі замовлення++++++++++++++ *@
+<input id="firstName1" type="text" value="@firstName" hidden />
+<input id="lastName1" type="text" value="@lastName" hidden />
+@* дані для передачі замовлення-------------- *@
+
 <div id="all">
+	 @* переходи на вхід та регістрацію,вхід, замовлення та історію *@
 <div >
 	<table class="table">
 		<tr>
@@ -53,10 +61,14 @@
 			</td>
 		</tr>
 	</table>
-	<a style=" display:@pokaz_button_zamovlenny; margin-left:20px;" class="btn btn-success">Зробити замовлення </a>
+	
+		<button id="bt_zamovlenny" style=" display:@pokaz_button_zamovlenny; width:100%; "
+				class="btn btn-success" disabled onclick="zamovlenny()">Зробити замовлення
+		</button>
 	
 </div>
 
+@* показ списка товарів *@
 <div>
 	<table class="table" width="100%">
 		<thead>
@@ -70,12 +82,13 @@
 		<tbody>
 			@foreach (var item in Model)
 			{
+				var id_prod = item.ProductId.ToString();
 				<tr>
 					<td>@item.Name</td>
 					<td>@item.Price</td>
 					<td>@item.Description</td>
 					<td>
-						<input type="checkbox" id="checkbox_1" style="display:@pokaz_button_zamovlenny">
+						<input type="checkbox" id="@id_prod" style="display:@pokaz_button_zamovlenny" onchange="aktiv_bt_zakaz(id)">
 					</td>
 					
 				</tr>
@@ -89,10 +102,12 @@
 
 </div>
 
+@* вхід за логіном та паролем *@
+
 <div id="vxid_user" style="display:none">
 	<h2>Вітаємо на сайті NEW_SHOP</h2>
 	<strong>Реєстрація:</strong>
-	<form asp-action="Index_product" method="post">
+	<form asp-controller="Product" asp-action="Index_product" method="post">
 	<div>
 		
 		<span>Введіть логін: </span>
@@ -106,3 +121,7 @@
 	</div>
 	</form>
 </div>
+
+<p id="qq">
+
+</p>
