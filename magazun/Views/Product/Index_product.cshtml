@@ -4,6 +4,8 @@
 	int kol_tovar = 0;
 	string lastName = "";
 	string firstName = "";
+	string login_user = "";
+	string role_user = "";
 
 	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
 
@@ -26,17 +28,14 @@
 		{
 			lastName = TempData["lastName"].ToString();
 			firstName = TempData["firstName"].ToString();
-
+			login_user = TempData["login_user"].ToString();
+			role_user = TempData["role"].ToString();
 		}		
 	}
 }
 
 <script src="/js/start.js"></script>
 
-@* дані для передачі замовлення++++++++++++++ *@
-<input id="firstName1" type="text" value="@firstName" hidden />
-<input id="lastName1" type="text" value="@lastName" hidden />
-@* дані для передачі замовлення-------------- *@
 
 <div id="all">
 	 @* переходи на вхід та регістрацію,вхід, замовлення та історію *@
@@ -47,9 +46,13 @@
 					<h2><em><span style="margin-right:50px">@lastName @firstName</span></em>
 						Вітаємо на сайті NEW_SHOP</h2>
 					<form action="@Url.Action("Histori", "Product")" method="post">
-						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
+						@* дані для передачі замовлення++++++++++++++ *@
 						<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
+						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
+						<input name="login_user1" id="login_user1" type="text" value="@login_user" hidden />
 						<input name="role1" id="role1" type="text" value="@role" hidden />
+						@* дані для передачі замовлення-------------- *@
+
 					<button style="margin-left:30px; display:@pokaz_button_zamovlenny;"
 					   class="btn btn-link" type="submit">Історія покупок</button>
 					</form >
