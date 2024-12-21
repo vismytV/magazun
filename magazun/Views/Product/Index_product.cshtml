@@ -17,7 +17,7 @@
 	else  
 	{
 		role = TempData["role"].ToString();
-		if (role == "user")
+		if (role.ToLower() == "user")
 		{
 			pokaz_button_zamovlenny = "block";
 		}

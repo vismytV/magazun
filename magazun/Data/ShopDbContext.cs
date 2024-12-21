@@ -30,6 +30,7 @@ namespace magazun.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
 			// зв'язки між таблицями
 			modelBuilder.Entity<OrderProduct>()
 				.HasKey(op => new { op.OrderId, op.ProductId });//складений первинний ключ таблиці OrderProduct
@@ -96,10 +97,6 @@ namespace magazun.Data
 				});
 				SaveChanges();
 			}
-
-			
-		
-
 
 			this.Database.EnsureCreated();
 		}

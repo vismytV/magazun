@@ -145,11 +145,15 @@ namespace magazun.Controllers
 				return BadRequest("Customer not found");
 			}
 
+			var productPrices = _database.GetProduct() // Получаем список всех продуктов из базы данных
+	.Where(p => masiv_product.Contains(p.ProductId)) // Выбираем продукты, которые есть в списке masiv_product
+	.Sum(p => p.Price); // Суммируем их цены
+
 			var newOrder = new Order
 			{
 				CustomerId = customer.CustomerId,
 				OrderDate = DateTime.Now,
-				TotalAmount = 1500,
+				TotalAmount = productPrices,
 				OrderProducts = masiv_product.Select(productId => new OrderProduct { ProductId = productId }).ToList()
 			};
 
