@@ -20,7 +20,7 @@
 	}
 	else
 	{
-		a = TempData["role"].ToString();
+		a = TempData["role"].ToString().ToLower();
 		if (a == "user")
 		{
 			pokaz_button_zamovlenny = "block";
@@ -50,13 +50,26 @@
 			</td>
 
 			<td align="right">
+				@* повернення назад+++++++++++++++ *@
 				<form id="nazad" method="post" asp-action="Index_product">
+					@* дані для повернення++++++++++++++ *@
+					<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
+					<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
 					<input name="login_user" id="login_user" type="text" value="@login_user1" hidden />
+					@* <input name="role1" id="role1" type="text" value="@role" hidden /> *@
 					<input name="pasw" id="pasw" type="text" value="@pasw1" hidden />
+					@* дані для повернення-------------- *@
+
 				<a title="назад"  >
 						<img src="~/img/nazad.PNG" width="40px" style="cursor:pointer" onclick="nazad_index2()"/>
 					</a>
 				</form> 
+				@* повернення назад-------------------------------- *@
+				@* lastName = TempData["lastName"].ToString();
+				firstName = TempData["firstName"].ToString();
+				login_user1 = TempData["login_user"].ToString();
+				pasw1 = TempData["pasw"].ToString(); *@
+				
 				</td>
 		</tr>
 	</table>

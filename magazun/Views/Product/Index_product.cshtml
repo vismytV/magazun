@@ -45,7 +45,7 @@
 			<td align="center">
 					<h2><em><span style="margin-right:50px">@lastName @firstName</span></em>
 						Вітаємо на сайті NEW_SHOP</h2>
-					<form action="@Url.Action("Histori", "Product")" method="post">
+					<form id="index_prod" action="@Url.Action("Histori", "Product")" method="post">
 						@* дані для передачі замовлення++++++++++++++ *@
 						<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
 						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />

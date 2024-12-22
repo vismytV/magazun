@@ -93,13 +93,7 @@ namespace magazun.Controllers
 		[HttpPost]
 		public IActionResult AddOrder(int customerId, List<int> productIds)
 		{
-			/*TempData["lastName"] = lastName1;
-			TempData["firstName"] = firstName1;
-			TempData["error1"] = "";
-			TempData["role"] = role1;
-			TempData["login_user"] = login_user1;*/
-
-
+			
 			if (productIds == null || !productIds.Any())
 				return BadRequest("No products specified for the order.");
 
@@ -115,7 +109,8 @@ namespace magazun.Controllers
 				};
 
 				_database.AddOrder(newOrder);
-				return Ok("Order added successfully.");
+				//return Ok("Order added successfully.");
+				return View();
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +122,8 @@ namespace magazun.Controllers
 		//приймаєио дані для нового ордеру
 		[Route("Product/Index_product1")]
 		[HttpPost]
-		public IActionResult Index_product1([FromForm] string firstName, [FromForm] string lastName, [FromForm] List<int> masiv_product)
+		public IActionResult Index_product1([FromForm] string firstName, [FromForm] string lastName, [FromForm] List<int> masiv_product
+			,[FromForm] string role,string login_user1)
 		{
 			var customer = _database.GetCustomer().FirstOrDefault(c => c.LastName == lastName && c.FirstName == firstName);
 
@@ -144,6 +140,13 @@ namespace magazun.Controllers
 			};
 
 			_database.AddOrder(newOrder);
+
+			TempData["lastName"] = lastName;
+			TempData["firstName"] = firstName;
+			TempData["error1"] = "";
+			TempData["role"] = role;
+			TempData["login_user"] = login_user1;
+
 
 			return Ok($"Order created for {firstName} {lastName} with {masiv_product.Count} products.");
 		}

@@ -57,17 +57,20 @@ function zamovlenny() {
     })
         .then(response => {
             if (response.ok) {
-                alert('Successfully updated!');
+                //alert('Successfully updated!');
             } else {
                 response.text().then(text => {
                     console.log('Response status:', response.status);
                     console.log('Response body:', text);
-                    alert('Failed to update: ' + text);
+                    //alert('Failed to update: ' + text);
                 });
             }
         })
         .catch(error => {
             console.log('Fetch error:', error);
-            alert('Error: ' + error.message);
+            //alert('Error: ' + error.message);
         });
+
+    document.getElementById('index_prod').submit(); // Отправить форму
+    alert("Покупку зроблено");
 }
