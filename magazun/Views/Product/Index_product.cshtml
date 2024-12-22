@@ -59,8 +59,8 @@
 			</td>
 			
 			<td align="right">
-					<a class="btn btn-link " id="vxid" onclick="vxid1()">Вхід</a>
-					<a class="btn btn-link " id="reestr" style="margin-left: 10px">Реєстрація</a>
+					<a class="btn btn-link " id="vxid" onclick="vxid2()">Реєстрація</a>
+					<a class="btn btn-link " id="reestr" style="margin-left: 10px" onclick="vxid1()">Вхід</a>
 			</td>
 		</tr>
 	</table>
@@ -109,10 +109,9 @@
 
 <div id="vxid_user" style="display:none">
 	<h2>Вітаємо на сайті NEW_SHOP</h2>
-	<strong>Реєстрація:</strong>
+	<strong><span id="sp_text">Вхід:</span></strong>
 	<form asp-controller="Product" asp-action="Index_product" method="post">
 	<div>
-		
 		<span>Введіть логін: </span>
 			<input name="login_user" id="login_user" onkeyup="aktiv_button()" type="text" required />
 
@@ -122,6 +121,43 @@
 	<div>
 			<button id="bt_vxod" class="btn btn-success" disabled type="submit">Зайти</button>
 	</div>
+	</form>
+</div>
+
+<div id="new_user" style="display:none">
+	<h2>Вітаємо на сайті NEW_SHOP</h2>
+	<strong><span id="sp_text">Реєстрація</span></strong>
+	<form asp-controller="Product" asp-action="Index_product2" method="post">
+		<div>
+			<div>
+			<span style="margin-left:15px;">Введіть логін: </span>
+			<input name="login_user2" id="login_user2" onkeyup="aktiv_button()" type="text" required />
+			</div>
+
+			<div style="margin-top:5px;">
+				<span>Введіть пароль: </span>
+				<input name="pasw2" id="pasw2" type="password" onkeyup="aktiv_button2()" required />
+
+				<span>Повторіть пароль: </span>
+				<input name="pasw3" id="pasw3" type="password" onkeyup="aktiv_button2()" required />
+				<img id="img_reg" src="~/img/galohka.png" height="25px" style="display:none;" />
+			</div>
+			<div style="margin-top:5px; margin-left:16px;">
+				<span style="margin-left:10px;">Введіть ім'я: </span>
+				<input name="lastName2" id="lastName2" onkeyup="aktiv_button2()" type="text" required />
+
+				<span>прізвище: </span>
+				<input name="firstName2" id="firstName2" onkeyup="aktiv_button2()" type="text" required />
+
+				<span>Email: </span>
+				<input name="cop_email" id="cop_email" type="text" hidden />
+				<input name="email2" id="email2" onkeyup="aktiv_button2()" type="email" required />
+
+			</div>
+		</div>
+		<div>
+			<button id="bt_reg" class="btn btn-success" type="submit" disabled>Реєструвати</button>
+		</div>
 	</form>
 </div>
 

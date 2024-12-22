@@ -14,7 +14,8 @@ namespace magazun.Data
 		//покупатель+++++++++++++++++
 		void IDatabase.AddCustomer(Customer customer)
 		{
-			throw new NotImplementedException();
+			_context.Customers.Add(customer); // Добавление клиента
+			_context.SaveChanges(); // Сохранение изменений в базе данных
 		}
 
 		void IDatabase.DeleteCustomer(int customerId)
@@ -122,7 +123,8 @@ namespace magazun.Data
 
 		void IDatabase.AddLogin(Login login)
 		{
-			throw new NotImplementedException();
+			_context.Logins.Add(login); // Добавление логина
+			_context.SaveChanges(); // Сохранение изменений в базе данных
 		}
 
 		void IDatabase.DeleteLogin(int login)

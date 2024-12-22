@@ -18,18 +18,76 @@ namespace magazun.Controllers
 		//початкова сторінка(гість)
 		public IActionResult Index_product()
 		{
-			TempData["error1"] = "";
+			if (TempData["error1"] == null)
+			{
+				TempData["error1"] = "";
+			}
 			TempData["role"] = "";
 			var rez = _database.GetProduct(); // Получаем список продуктов
 			return View(rez); // Передаем продукты в представление
 
 		}
 
+		[Route("Product/Index_product2")]//реєстрація
+		[HttpPost]
+		public IActionResult Index_product2(string login_user2, string pasw2, 
+			string lastName2,string firstName2,string cop_email)//реєстрація
+		{
+			//var rez1 = _database.GetProduct();
+
+			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user2
+			&& l.Password == pasw2);
+			if (rez != null)
+			{
+				TempData["error1"] = "Логін " + login_user2 + " вже зайнятий";
+				return RedirectToAction("Index_product", "Product");
+			}
+
+			var rez3=_database.GetCustomer().FirstOrDefault(c=>c.Email==cop_email);
+			if (rez3 != null)
+			{
+				TempData["error1"] = "Email " + cop_email + " вже зареєстрована";
+				return RedirectToAction("Index_product", "Product");
+			}
+
+			var newCustomer = new Customer
+			{
+				FirstName = lastName2,
+				LastName = firstName2,
+				Email = cop_email
+				
+			};
+
+			_database.AddCustomer(newCustomer);
+
+			var cust=_database.GetCustomer().FirstOrDefault(c=>c.Email==cop_email);
+
+			var newLogin = new Login
+			{
+				UserLogin = login_user2,
+				Password = pasw2,
+				Role = "user",
+				idCustomer = cust.CustomerId,
+				customer= cust
+			};
+
+
+			_database.AddLogin(newLogin);
+
+			TempData["role"] = "user";
+			TempData["error1"] = "";
+			TempData["lastName"] = lastName2;
+			TempData["firstName"] = firstName2;
+			TempData["login_user"] = login_user2;
+			TempData["pasw"] = pasw2;
+
+			return RedirectToAction("Index_product", "Product");
+		}
 
 		//початкова сторінка (юзер)
 		[Route("Product/Index_product")]
 		[HttpPost ]
-		public IActionResult Index_product(string login_user, string pasw)
+		public IActionResult Index_product(string login_user, string pasw)//вхід
 		{
 			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user
 			&& l.Password == pasw);

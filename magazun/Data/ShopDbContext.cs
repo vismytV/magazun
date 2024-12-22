@@ -44,6 +44,11 @@ namespace magazun.Data
 				.HasOne(op => op.Product)//Кожен запис у OrderProduct пов'язаний з одним Product
 				.WithMany(p => p.OrderProducts)//Кожен Product може бути присутнім у багатьох записах OrderProduct
 				.HasForeignKey(op => op.ProductId);//Вказує, що поле ProductId у таблиці OrderProduct є зовнішнім ключем, який посилається на Product.ProductId
+
+			modelBuilder.Entity<Login>()
+				.HasOne(l => l.customer);               // Логин связан с клиентом
+				//.WithMany(c => c.Logins)               // Клиент может иметь много логинов (если требуется)
+				
 		}
 
 		public void InitializeDatabase()
@@ -52,8 +57,8 @@ namespace magazun.Data
 			{
 				Customers.AddRange(new List<Customer>
 				{
-					new Customer { CustomerId=1,FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" },
-					new Customer { CustomerId=2,FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com" }
+					new Customer { FirstName = "John", LastName = "Doe", Email = "john.doe@example.com" },
+					new Customer { FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com" }
 				});
 				
 				SaveChanges();
@@ -63,9 +68,9 @@ namespace magazun.Data
 			{
 				Products.AddRange(new List<Product>
 				{
-					new Product {ProductId=1, Name = "Laptop", Price = 1200, Description = "High-performance laptop" },
-					new Product {ProductId=2, Name = "Mouse", Price = 25, Description = "Wireless mouse" },
-					new Product {ProductId=3, Name = "Keyboard", Price = 45, Description = "Mechanical keyboard" }
+					new Product {Name = "Laptop", Price = 1200, Description = "High-performance laptop" },
+					new Product {Name = "Mouse", Price = 25, Description = "Wireless mouse" },
+					new Product {Name = "Keyboard", Price = 45, Description = "Mechanical keyboard" }
 				});
 				SaveChanges();
 			}
@@ -90,9 +95,9 @@ namespace magazun.Data
 			{
 				Logins.AddRange(new List<Login>
 				{
-					new Login {Id=1,idCustomer=1, UserLogin = "admin", Password = "admin123", Role = "Admin",
+					new Login {UserLogin = "admin", Password = "1", Role = "Admin",
 						customer = Customers.FirstOrDefault(c => c.FirstName == "John") },
-					new Login {Id=2,idCustomer=2, UserLogin = "user1", Password = "password123", Role = "User",
+					new Login {idCustomer=2, UserLogin = "1", Password = "1", Role = "User",
 						customer = Customers.FirstOrDefault(c => c.FirstName == "Jane") }
 				});
 				SaveChanges();

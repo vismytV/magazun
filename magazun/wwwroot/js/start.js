@@ -2,7 +2,12 @@
 nom_vubor = [];
 function vxid1() {
     document.getElementById('all').style.display = "none";
-    document.getElementById('vxid_user').style.display = "block";
+    document.getElementById('vxid_user').style.display = "block";    
+}
+
+function vxid2() {
+    document.getElementById('all').style.display = "none";
+    document.getElementById('new_user').style.display = "block";
 }
 
 function aktiv_button() {
@@ -18,6 +23,30 @@ function aktiv_button() {
 
 }
 
+function aktiv_button2() {
+    a1 = document.getElementById('login_user2').value;
+    a2 = document.getElementById('pasw2').value;
+    a3 = document.getElementById('pasw3').value;
+    a4 = document.getElementById('lastName2').value;
+    a5 = document.getElementById('firstName2').value;
+    a6 = document.getElementById('email2').value;
+
+    if (a2 != "" && a2 == a3) {
+        document.getElementById('img_reg').style.display = "";
+    }
+    else {
+        document.getElementById('img_reg').style.display = "none";
+    }
+
+    if (a1 != "" && a2 != "" && a3 != "" && a4 != "" && a5 != "" && a6!="" && a2 == a3) {
+        document.getElementById('bt_reg').disabled = false;
+        document.getElementById('cop_email').value = a6;    
+    }
+    else {
+        document.getElementById('bt_reg').disabled = true;
+        
+    }
+}
 function nazad_index2() {
     document.getElementById('nazad').submit(); // Отправить форму
 }
