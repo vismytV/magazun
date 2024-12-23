@@ -103,3 +103,74 @@ function zamovlenny() {
     document.getElementById('index_prod').submit(); // Отправить форму
     alert("Покупку зроблено");
 }
+
+function profil1()
+{
+    document.getElementById('all').style.display = "none";
+    document.getElementById('info_profil').style.display = "block";    
+    
+}
+
+function edit_profil() {
+    //if (document.getElementById('btn_info_edit').innerHTML == "Редагувати") {
+    //document.getElementById('btn_info_edit').innerHTML = "Зберегти"
+    document.getElementById('btn_info_edit').style.display = "none";
+    document.getElementById('btn_info_edit2').style.display = "";
+    
+        //document.getElementById('btn_info_edit').className = "btn btn-success";
+
+        document.getElementById('info_pasw').disabled = false;
+        document.getElementById('info_pasw2').style.display = "";
+        document.getElementById('info_pasw22').style.display = "";
+        document.getElementById('img_info_pasw22').style.display = "";
+
+        document.getElementById('info_lastName').style.display = "none";
+        document.getElementById('info_lastName1').style.display = "";
+
+        document.getElementById('info_firstName').style.display = "none";
+        document.getElementById('info_firstName1').style.display = "";
+
+        document.getElementById('info_email').style.display = "none";
+        document.getElementById('info_email2').style.display = "";
+    /*}
+    else {
+        alert('zapus');
+    }*/
+}
+
+function activ_btn_info() {
+    a1 = document.getElementById('info_pasw').value;
+    a2 = document.getElementById('info_pasw22').value;
+    a3 = document.getElementById('info_lastName1').value;
+    a4 = document.getElementById('info_firstName1').value;
+    a5 = document.getElementById('info_email2').value;
+
+    if (a1 != a2) {
+        document.getElementById('img_info_pasw22').style.display = "none";
+    }
+    else {
+        document.getElementById('img_info_pasw22').style.display = "";
+    }
+
+    if (a1 != "" && a2 != "" && a1 == a2 && a3 != "" && a3 != "" && a5 != "") {
+        document.getElementById('btn_info_edit2').disabled = false;
+    }
+    else {
+        document.getElementById('btn_info_edit2').disabled = true;
+    }
+
+
+    if (document.getElementById('info_email2').checkValidity()) {
+        
+        // Дополнительные действия, если валидно
+    } else {
+        document.getElementById('btn_info_edit2').disabled = true;
+    }
+}
+
+function edit_nazad() {
+    document.getElementById('all').style.display = "";
+    document.getElementById('info_profil').style.display = "none";
+    
+}
+    

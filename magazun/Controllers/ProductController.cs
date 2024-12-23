@@ -21,8 +21,9 @@ namespace magazun.Controllers
 			if (TempData["error1"] == null)
 			{
 				TempData["error1"] = "";
+				TempData["role"] = "";
 			}
-			TempData["role"] = "";
+			
 			var rez = _database.GetProduct(); // Получаем список продуктов
 			return View(rez); // Передаем продукты в представление
 
@@ -33,10 +34,7 @@ namespace magazun.Controllers
 		public IActionResult Index_product2(string login_user2, string pasw2, 
 			string lastName2,string firstName2,string cop_email)//реєстрація
 		{
-			//var rez1 = _database.GetProduct();
-
-			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user2
-			&& l.Password == pasw2);
+			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user2);
 			if (rez != null)
 			{
 				TempData["error1"] = "Логін " + login_user2 + " вже зайнятий";
@@ -75,11 +73,12 @@ namespace magazun.Controllers
 			_database.AddLogin(newLogin);
 
 			TempData["role"] = "user";
-			TempData["error1"] = "";
+			TempData["error1"] = "Успішно зареэстровано";
 			TempData["lastName"] = lastName2;
 			TempData["firstName"] = firstName2;
 			TempData["login_user"] = login_user2;
 			TempData["pasw"] = pasw2;
+			TempData["email"] = cop_email;
 
 			return RedirectToAction("Index_product", "Product");
 		}
@@ -107,6 +106,7 @@ namespace magazun.Controllers
 				TempData["firstName"] = tempo.FirstName;
 				TempData["login_user"] = login_user;
 				TempData["pasw"] = pasw;
+				TempData["email"] = tempo.Email;
 			}
 
 
@@ -115,18 +115,21 @@ namespace magazun.Controllers
 
 		//історія юзера
 		[HttpPost]
-		public IActionResult Histori(string lastName1, string firstName1, string role1,string login_user1)
+		public IActionResult Histori(string lastName1, string firstName1, string role1,string login_user1,string pasw1)
 		{
 			TempData["lastName"] = lastName1;
 			TempData["firstName"] = firstName1;
 			TempData["error1"] = "";
 			TempData["role"] = role1;
 			TempData["login_user"] = login_user1;
+			TempData["pasw"] = pasw1;
 
 			var login=_database.GetLogin().FirstOrDefault(l=>l.UserLogin== login_user1);
 
+			
 			var customer=_database.GetCustomer()
 				.FirstOrDefault(c=>c.CustomerId==login.idCustomer);
+			
 
 			// Отримуємо всі ордери для знайденого користувача
 			var orders = _database.GetOrder()
@@ -135,9 +138,9 @@ namespace magazun.Controllers
 				.Where(z => z.CustomerId == customer.CustomerId) // Фільтруємо за CustomerId
 				.ToList();
 
-			//int a;
+			int a;
 			ViewBag.Orders = orders;
-				//a=orders.Count();
+			a=orders.Count();
 
 			var p = _database.GetOrder().FirstOrDefault(o => o.CustomerId == customer.CustomerId);
 			if (p != null)
@@ -177,7 +180,7 @@ namespace magazun.Controllers
 		}
 
 		
-		//приймаєио дані для нового ордеру
+		//приймаємо дані для нового ордеру
 		[Route("Product/Index_product1")]
 		[HttpPost]
 		public IActionResult Index_product1([FromForm] string firstName, [FromForm] string lastName, [FromForm] List<int> masiv_product
@@ -210,6 +213,54 @@ namespace magazun.Controllers
 		}
 
 		//додаэмо новий ордер------------------------
+
+		//редагування даних юзера
+		[Route("Product/EditProfilUser")]
+		[HttpPost]
+		public IActionResult EditProfilUser(string info_pasw, string info_login,
+			string info_lastName1,string info_firstName1, string info_email2)
+		{
+			var login=_database.GetLogin().FirstOrDefault(l=>l.UserLogin== info_login);
+			if (login == null)
+			{
+				int qqq = 0;
+			}
+			var updatedCustomer = new Customer
+			{
+				CustomerId = login.idCustomer, // Идентификатор клиента
+				FirstName = info_firstName1,
+				LastName = info_lastName1,
+				Email = info_email2
+			};
+
+			_database.UpdateCustomer(updatedCustomer);
+
+			var newLogin = new Login
+			{
+				Id=login.Id,
+				UserLogin = info_login,
+				Password = info_pasw,
+				Role = "user",
+				idCustomer = login.idCustomer,
+				customer = updatedCustomer
+			};
+
+
+			_database.UpdateLogin(newLogin);
+
+			TempData["role"] = "user";
+			TempData["error1"] = "Дані успішно змінено";
+			TempData["lastName"] = info_lastName1;
+			TempData["firstName"] = info_firstName1;
+			TempData["login_user"] = login.UserLogin;
+			TempData["pasw"] = info_pasw;
+			TempData["email"] = info_email2;
+
+			return RedirectToAction("Index_product", "Product");
+			
+		}
 	}
+
+
 
 }

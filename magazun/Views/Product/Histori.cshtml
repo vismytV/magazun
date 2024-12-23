@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<magazun.Models.Product>
 
+
 @{
 	var orders = ViewBag.Orders as List<magazun.Models.Order>;
 	//var ordersProduct = ViewBag.Orders as List<magazun.Models.OrderProduct>;
@@ -14,8 +15,8 @@
 	string a = TempData["error1"].ToString();
 	if (a != "")
 	{
-		<script>
-			alert(@Json.Serialize(TempData["error1"]));
+			<script>
+				alert(@Json.Serialize(TempData["error1"]));
 		</script>
 	}
 	else
@@ -31,22 +32,24 @@
 			lastName = TempData["lastName"].ToString();
 			firstName = TempData["firstName"].ToString();
 			login_user1 = TempData["login_user"].ToString();
-			pasw1 = TempData["pasw"].ToString();
+
+			pasw1 = TempData["pasw"].ToString();			
 		}
 	}
 }
 
 <script src="/js/start.js"></script>
 
+
 <div>
-	<table class="table">
+	<table class="table table-striped">
 		<tr>
 			<td align="center">
 				<h2>
-					<em><span style="margin-right:50px">@lastName @firstName</span></em>
+					<em><span style="margin-right:50px; color:blue">@lastName @firstName</span></em>
 					Вітаємо на сайті NEW_SHOP
 				</h2>
-				
+				<h4>Історія покупок:</h4>
 			</td>
 
 			<td align="right">
@@ -65,11 +68,6 @@
 					</a>
 				</form> 
 				@* повернення назад-------------------------------- *@
-				@* lastName = TempData["lastName"].ToString();
-				firstName = TempData["firstName"].ToString();
-				login_user1 = TempData["login_user"].ToString();
-				pasw1 = TempData["pasw"].ToString(); *@
-				
 				</td>
 		</tr>
 	</table>
@@ -93,26 +91,33 @@
 			@{
 				foreach (var item in orders)
 				{
-					<tr>
-						<td>
-							@item.OrderDate
-						</td>
-						<td>
-							<ul>
-								@foreach (var orderProduct in item.OrderProducts)
+						<tr>
+							<td>
+								@item.OrderDate
+							</td>
+							<td>
+								<ul>
+									@foreach (var orderProduct in item.OrderProducts)
 								{
-									<li>@orderProduct.Product.Name - @orderProduct.Product.Price $</li>
+										<li>@orderProduct.Product.Name - @orderProduct.Product.Price $</li>
 								}
-							</ul>
-						</td>
-						<td>
-							@item.TotalAmount
-						</td>
-					</tr>
+								</ul>
+							</td>
+							<td>
+								@item.TotalAmount
+							</td>
+						</tr>
 				}
 			}
 			
 		</tbody>
 	</table>
 </div>
+
+@{
+	if (orders.Count() == 0)
+	{
+		<span>Не має покупок</span>
+	}
+}
 

@@ -6,8 +6,10 @@
 	string firstName = "";
 	string login_user = "";
 	string role_user = "";
-
+	string pasw22 = "";
+	string user_imail = "";
 	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
+	string pokaz_button_zamovlenny1 = "none";//для показу профіля
 
 	string role = TempData["error1"].ToString();
 	if ( role!= "")
@@ -16,12 +18,14 @@
 			alert(@Json.Serialize(TempData["error1"]));
 		</script>
 	}
-	else  
+
+	if (TempData["role"]!=null)
 	{
 		role = TempData["role"].ToString();
 		if (role.ToLower() == "user")
 		{
 			pokaz_button_zamovlenny = "block";
+			
 		}
 		
 		if (role != "")
@@ -30,6 +34,9 @@
 			firstName = TempData["firstName"].ToString();
 			login_user = TempData["login_user"].ToString();
 			role_user = TempData["role"].ToString();
+			pokaz_button_zamovlenny1 = "content";
+			pasw22 = TempData["pasw"].ToString();
+			user_imail = TempData["email"].ToString();
 		}		
 	}
 }
@@ -40,10 +47,10 @@
 <div id="all">
 	 @* переходи на вхід та регістрацію,вхід, замовлення та історію *@
 <div >
-	<table class="table">
+		<table class="table table-striped">
 		<tr>
 			<td align="center">
-					<h2><em><span style="margin-right:50px">@lastName @firstName</span></em>
+					<h2><em><span style="margin-right:50px;color:blue" >@lastName @firstName</span></em>
 						Вітаємо на сайті NEW_SHOP</h2>
 					<form id="index_prod" action="@Url.Action("Histori", "Product")" method="post">
 						@* дані для передачі замовлення++++++++++++++ *@
@@ -51,6 +58,7 @@
 						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
 						<input name="login_user1" id="login_user1" type="text" value="@login_user" hidden />
 						<input name="role1" id="role1" type="text" value="@role" hidden />
+						<input name="pasw1" id="pasw1" type="text" value="@pasw22" hidden />
 						@* дані для передачі замовлення-------------- *@
 
 					<button style="margin-left:30px; display:@pokaz_button_zamovlenny;"
@@ -59,8 +67,10 @@
 			</td>
 			
 			<td align="right">
-					<a class="btn btn-link " id="vxid" onclick="vxid2()">Реєстрація</a>
-					<a class="btn btn-link " id="reestr" style="margin-left: 10px" onclick="vxid1()">Вхід</a>
+				<img onclick="profil1()" src="~/img/nik.png" height="25px" style="margin-left:10px;display:@pokaz_button_zamovlenny1; cursor:pointer;" />
+				
+				<a class="btn btn-link " id="vxid" onclick="vxid2()">Реєстрація</a>
+				<a class="btn btn-link " id="reestr" style="margin-left: 10px" onclick="vxid1()">Вхід</a>
 			</td>
 		</tr>
 	</table>
@@ -73,7 +83,7 @@
 
 @* показ списка товарів *@
 <div>
-	<table class="table" width="100%">
+		<table class="table table-striped" width="100%">
 		<thead>
 			<th id="th_1" align="center" width="400">Назва товару</th>
 			<th id="th_1" align="center" width="100">Ціна</th>
@@ -124,6 +134,7 @@
 	</form>
 </div>
 
+@* реєстрація *@
 <div id="new_user" style="display:none">
 	<h2>Вітаємо на сайті NEW_SHOP</h2>
 	<strong><span id="sp_text">Реєстрація</span></strong>
@@ -146,7 +157,7 @@
 				<span style="margin-left:10px;">Введіть ім'я: </span>
 				<input name="lastName2" id="lastName2" onkeyup="aktiv_button2()" type="text" required />
 
-				<span>прізвище: </span>
+				<span style="margin-left:60px;">прізвище: </span>
 				<input name="firstName2" id="firstName2" onkeyup="aktiv_button2()" type="text" required />
 
 				<span>Email: </span>
@@ -161,6 +172,64 @@
 	</form>
 </div>
 
+@* профіль *@
+<div id="info_profil" style="display:none;"  >
+	<h2>Вітаємо на сайті NEW_SHOP</h2>
+	<button class="btn btn-link" onclick="edit_nazad()">Назад</button>
+
+	<form asp-controller="Product" asp-action="EditProfilUser" method="post">
+	
+	<h4>Профіль:</h4>
+	<div>
+		<strong>
+			<span style="margin-left:38px;">Логін:</span>
+		</strong>
+			<input type="text" name="info_login" id="info_login" value="@login_user" hidden />
+			<label  >@login_user</label>
+	</div>
+	<div style="margin-top:5px;">
+		<strong>
+			<span style="margin-left:20px;">Пароль:</span>
+		</strong>
+			<input name="info_pasw" id="info_pasw" type="password" value="@pasw22" disabled required onkeyup="activ_btn_info()" />
+
+		<strong>
+				<span id="info_pasw2" style="display:none">Підвердіть пароль:</span>
+		</strong>
+		<input id="info_pasw22" type="password" style="display:none" value="@pasw22" required onkeyup="activ_btn_info()" />
+		<img id="img_info_pasw22" src="~/img/galohka.png" height="25px" style="display:none;" />
+	</div>
+	<div style="margin-top:5px;">
+		<strong>
+			<span style="margin-left:46px;">Ім'я:</span>
+		</strong>
+			<label id="info_lastName">@lastName </label>
+			<input name="info_lastName1" id="info_lastName1" type="text" style="display:none" value="@lastName " required onkeyup="activ_btn_info()" />
+	</div>
+
+	<div style="margin-top:5px;">
+		<strong>
+			<span >Прізвище:</span>
+		</strong>
+		<label id="info_firstName">@firstName </label>
+			<input name="info_firstName1" id="info_firstName1" type="text" style="display:none" value="@firstName " required onkeyup="activ_btn_info()" />
+	</div>
+
+	<div style="margin-top:5px;">
+		<strong>
+			<span>Email:</span>
+		</strong>
+		<label id="info_email">@user_imail </label>
+			<input name="info_email2" id="info_email2" type="email" style="display:none" value="@user_imail " required onkeyup="activ_btn_info()" />
+	</div>
+		<div style="margin-top:10px;">
+			<button id="btn_info_edit2" class="btn btn-success" style="display:none" type="submit">Зберегти</button>
+		</div>
+	</form>
+	<div style="margin-top:10px;">
+		<button id="btn_info_edit" class="btn btn-warning" onclick="edit_profil()">Редагувати</button>
+	</div>
+</div>
 <p id="qq">
 
 </p>

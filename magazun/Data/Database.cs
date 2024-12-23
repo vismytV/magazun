@@ -30,8 +30,26 @@ namespace magazun.Data
 
 		void IDatabase.UpdateCustomer(Customer customer)
 		{
-			throw new NotImplementedException();
+			var existingCustomer = _context.Customers.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+			if (existingCustomer == null)
+			{
+				throw new Exception("Клиент не найден");
+			}
+
+			// Проверка на уникальность Email
+			if (_context.Customers.Any(c => c.Email == customer.Email && c.CustomerId != customer.CustomerId))
+			{
+				throw new Exception("Email вже використовується іншим клієнтом");
+			}
+
+			existingCustomer.FirstName = customer.FirstName;
+			existingCustomer.LastName = customer.LastName;
+			existingCustomer.Email = customer.Email;
+
+			_context.SaveChanges();
 		}
+
+
 
 		void IDatabase.UpdateProduct(Product product)
 		{
@@ -139,7 +157,17 @@ namespace magazun.Data
 
 		void IDatabase.UpdateLogin(Login login)
 		{
-			throw new NotImplementedException();
+			var existingLogin = _context.Logins.FirstOrDefault(l => l.Id == login.Id);
+
+			if (existingLogin == null)
+			{
+				throw new Exception("Логін не найдено");
+			}
+
+			existingLogin.Password=login.Password;
+			existingLogin.Role=login.Role;
+			
+			_context.SaveChanges();
 		}
 
 		List<OrderProduct> IDatabase.GetOrderProduct()
