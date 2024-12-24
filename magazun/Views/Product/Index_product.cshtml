@@ -8,14 +8,15 @@
 	string role_user = "";
 	string pasw22 = "";
 	string user_imail = "";
+	string color_name = "";
 	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
-	string pokaz_button_zamovlenny1 = "none";//для показу профіля
+	string pokaz_button_zamovlenny1 = "none";//для показу профіля(для адміна)
 
 	string role = TempData["error1"].ToString();
 	if ( role!= "")
 	{
-		<script>
-			alert(@Json.Serialize(TempData["error1"]));
+						<script>
+							alert(@Json.Serialize(TempData["error1"]));
 		</script>
 	}
 
@@ -24,17 +25,22 @@
 		role = TempData["role"].ToString();
 		if (role.ToLower() == "user")
 		{
-			pokaz_button_zamovlenny = "block";
-			
+			pokaz_button_zamovlenny = "";
+			color_name = "blue";
+
 		}
-		
+		else if ((role.ToLower() == "admin"))
+		{
+			pokaz_button_zamovlenny1 = "";
+			color_name = "red";
+		}
+
 		if (role != "")
 		{
 			lastName = TempData["lastName"].ToString();
 			firstName = TempData["firstName"].ToString();
 			login_user = TempData["login_user"].ToString();
 			role_user = TempData["role"].ToString();
-			pokaz_button_zamovlenny1 = "content";
 			pasw22 = TempData["pasw"].ToString();
 			user_imail = TempData["email"].ToString();
 		}		
@@ -50,28 +56,47 @@
 		<table class="table table-striped">
 		<tr>
 			<td align="center">
-					<h2><em><span style="margin-right:50px;color:blue" >@lastName @firstName</span></em>
+					<h2><em><span id="sp_name" style="margin-right:50px;color:@color_name" >@lastName @firstName</span></em>
+						
 						Вітаємо на сайті NEW_SHOP</h2>
 					<form id="index_prod" action="@Url.Action("Histori", "Product")" method="post">
 						@* дані для передачі замовлення++++++++++++++ *@
 						<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
 						<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
 						<input name="login_user1" id="login_user1" type="text" value="@login_user" hidden />
-						<input name="role1" id="role1" type="text" value="@role" hidden />
+						<input name="role1" id="role1" type="text" value="@role_user" hidden />
 						<input name="pasw1" id="pasw1" type="text" value="@pasw22" hidden />
 						@* дані для передачі замовлення-------------- *@
 
 					<button style="margin-left:30px; display:@pokaz_button_zamovlenny;"
 					   class="btn btn-link" type="submit">Історія покупок</button>
 					</form >
-			</td>
+
+					<form action="@Url.Action("admin_vubor", "Admin")" method="post">
+						<input name="vubor_admin" id="vubor_admin" hidden />
+					<button style="margin-left:30px; display:@pokaz_button_zamovlenny1; "
+							class="btn btn-link" onclick="vubor_admin1('order')">
+						Історія
+					</button>
+					<button  name="users" style="margin-left:30px; display:@pokaz_button_zamovlenny1;"
+								class="btn btn-link" onclick="vubor_admin1('customer')">
+						Користувачі
+					</button>
+					</form>
+
+				</td>
 			
 			<td align="right">
-				<img onclick="profil1()" src="~/img/nik.png" height="25px" style="margin-left:10px;display:@pokaz_button_zamovlenny1; cursor:pointer;" />
-				
+				<img id="img_nik" onclick="profil1()" src="~/img/nik.png" height="25px" style="margin-right:10px;display:@pokaz_button_zamovlenny; cursor:pointer;" />
+					<img id="img_nik" onclick="profil1()" src="~/img/nik.png" height="25px" style="margin-right:10px;display:@pokaz_button_zamovlenny1; cursor:pointer;" />
+					
 				<a class="btn btn-link " id="vxid" onclick="vxid2()">Реєстрація</a>
 				<a class="btn btn-link " id="reestr" style="margin-left: 10px" onclick="vxid1()">Вхід</a>
 			</td>
+			
+
+					
+			
 		</tr>
 	</table>
 	

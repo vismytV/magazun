@@ -173,4 +173,7 @@ function edit_nazad() {
     document.getElementById('info_profil').style.display = "none";
     
 }
-    
+
+function vubor_admin1(vubor) {
+    document.getElementById('vubor_admin').value = vubor;
+}

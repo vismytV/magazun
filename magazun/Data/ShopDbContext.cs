@@ -95,8 +95,8 @@ namespace magazun.Data
 			{
 				Logins.AddRange(new List<Login>
 				{
-					new Login {UserLogin = "admin", Password = "1", Role = "Admin",
-						customer = Customers.FirstOrDefault(c => c.FirstName == "John") },
+					new Login {idCustomer=1, UserLogin = "admin", Password = "1", Role = "Admin",
+						customer = Customers.FirstOrDefault(c => c.CustomerId==1) },
 					new Login {idCustomer=2, UserLogin = "1", Password = "1", Role = "User",
 						customer = Customers.FirstOrDefault(c => c.FirstName == "Jane") }
 				});

@@ -109,7 +109,10 @@ namespace magazun.Controllers
 				TempData["email"] = tempo.Email;
 			}
 
-
+			/*if (rez != null && rez.Role == "Admin")
+			{
+				return RedirectToAction("Index_product", "Product");
+			}*/
 			return View(rez1);
 		}
 
