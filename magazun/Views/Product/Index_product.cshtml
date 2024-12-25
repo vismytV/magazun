@@ -72,14 +72,23 @@
 					   class="btn btn-link" type="submit">Історія покупок</button>
 					</form >
 
-					<form action="@Url.Action("admin_vubor", "Admin")" method="post">
+					<form action="@Url.Action("adminHistori", "Admin")" method="post">
+						@* дані для передачі ++++++++++++++ *@
+						<input name="firstNameA" id="firstNameA" type="text" value="@firstName" hidden />
+						<input name="lastNameA" id="lastNameA" type="text" value="@lastName" hidden />
+						<input name="login_userA" id="login_userA" type="text" value="@login_user" hidden />
+						<input name="roleA" id="roleA" type="text" value="@role_user" hidden />
+						<input name="paswA" id="paswA" type="text" value="@pasw22" hidden />
 						<input name="vubor_admin" id="vubor_admin" hidden />
+						@* дані для передачі -------------- *@
+
+						
 					<button style="margin-left:30px; display:@pokaz_button_zamovlenny1; "
-							class="btn btn-link" onclick="vubor_admin1('order')">
+							class="btn btn-link" onclick="vubor_admin1('orders')">
 						Історія
 					</button>
 					<button  name="users" style="margin-left:30px; display:@pokaz_button_zamovlenny1;"
-								class="btn btn-link" onclick="vubor_admin1('customer')">
+								class="btn btn-link" onclick="vubor_admin1('customers')">
 						Користувачі
 					</button>
 					</form>

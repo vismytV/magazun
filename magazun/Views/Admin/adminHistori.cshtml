@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<magazun.Models.Product>
 
-
 @{
 	var orders = ViewBag.Orders as List<magazun.Models.Order>;
-	
+	var customers = ViewBag.Customers as List<magazun.Models.Customer>;
 	string lastName = "";
 	string firstName = "";
 	string login_user1 = "";
@@ -39,13 +38,12 @@
 
 <script src="/js/start.js"></script>
 
-
 <div>
 	<table class="table table-striped">
 		<tr>
 			<td align="center">
 				<h2>
-					<em><span style="margin-right:50px; color:blue">@lastName @firstName</span></em>
+					<em><span style="margin-right:50px; color:red">@lastName @firstName</span></em>
 					Вітаємо на сайті NEW_SHOP
 				</h2>
 				<h4>Історія покупок:</h4>
@@ -53,7 +51,7 @@
 
 			<td align="right">
 				@* повернення назад+++++++++++++++ *@
-				<form id="nazad" method="post" asp-action="Index_product">
+				<form id="nazad" method="post" asp-controller="Product" asp-action="Index_product">
 					@* дані для повернення++++++++++++++ *@
 					<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
 					<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
@@ -77,8 +75,12 @@
 				<td>
 					Дата
 				</td>
+				<td>
+					Покупець
+				</td>
 				<td >
 					Назва товару
+					<input type="checkbox" name="checkbox" id="nazva_tovary" checked onclick="pokaz_tovary_all()">
 				</td>
 				<td width="100px">
 					Ціна
@@ -93,6 +95,13 @@
 						<tr>
 							<td>
 								@item.OrderDate
+							</td>
+							<td>
+							@{
+								var id_customer = item.CustomerId;
+								var customer = customers.FirstOrDefault(c => c.CustomerId == item.CustomerId);
+							}
+							<span>@customer.FirstName</span> <span>@customer.LastName</span>
 							</td>
 							<td>
 								<ul>

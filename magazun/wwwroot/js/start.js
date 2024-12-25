@@ -1,4 +1,5 @@
-﻿kol_tovar_vubor = 0;
+﻿
+kol_tovar_vubor = 0;
 nom_vubor = [];
 function vxid1() {
     document.getElementById('all').style.display = "none";
@@ -176,4 +177,8 @@ function edit_nazad() {
 
 function vubor_admin1(vubor) {
     document.getElementById('vubor_admin').value = vubor;
+}
+
+function pokaz_tovary_all() {
+    alert(100);
 }

@@ -18,11 +18,11 @@ namespace magazun.Controllers
 		//початкова сторінка(гість)
 		public IActionResult Index_product()
 		{
-			if (TempData["error1"] == null)
-			{
+			//if (TempData["error1"] == null)
+			//{
 				TempData["error1"] = "";
 				TempData["role"] = "";
-			}
+			//}
 			
 			var rez = _database.GetProduct(); // Получаем список продуктов
 			return View(rez); // Передаем продукты в представление
@@ -109,10 +109,6 @@ namespace magazun.Controllers
 				TempData["email"] = tempo.Email;
 			}
 
-			/*if (rez != null && rez.Role == "Admin")
-			{
-				return RedirectToAction("Index_product", "Product");
-			}*/
 			return View(rez1);
 		}
 
@@ -141,15 +137,15 @@ namespace magazun.Controllers
 				.Where(z => z.CustomerId == customer.CustomerId) // Фільтруємо за CustomerId
 				.ToList();
 
-			int a;
+			//int a;
 			ViewBag.Orders = orders;
-			a=orders.Count();
+			//a=orders.Count();
 
-			var p = _database.GetOrder().FirstOrDefault(o => o.CustomerId == customer.CustomerId);
+			/*var p = _database.GetOrder().FirstOrDefault(o => o.CustomerId == customer.CustomerId);
 			if (p != null)
 			{
 				int a1 = 0;
-			}
+			}*/
 			return View();
 		}
 
