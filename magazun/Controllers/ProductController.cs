@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace magazun.Controllers
 {
-	public class Product : Controller
+	public class ProductController : Controller
 	{
 		private readonly IDatabase _database;
 
-		
-		public Product(IDatabase database)
+
+		public ProductController(IDatabase database)
 		{
 			_database = database;
 		}
@@ -21,10 +21,10 @@ namespace magazun.Controllers
 		{
 			//if (TempData["error1"] == null)
 			//{
-				TempData["error1"] = "";
-				TempData["role"] = "";
+			TempData["error1"] = "";
+			TempData["role"] = "";
 			//}
-			
+
 			var rez = _database.GetProduct(); // Получаем список продуктов
 			return View(rez); // Передаем продукты в представление
 
@@ -32,8 +32,8 @@ namespace magazun.Controllers
 
 		[Route("Product/Index_product2")]//реєстрація
 		[HttpPost]
-		public IActionResult Index_product2(string login_user2, string pasw2, 
-			string lastName2,string firstName2,string cop_email)//реєстрація
+		public IActionResult Index_product2(string login_user2, string pasw2,
+			string lastName2, string firstName2, string cop_email)//реєстрація
 		{
 			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user2);
 			if (rez != null)
@@ -42,7 +42,7 @@ namespace magazun.Controllers
 				return RedirectToAction("Index_product", "Product");
 			}
 
-			var rez3=_database.GetCustomer().FirstOrDefault(c=>c.Email==cop_email);
+			var rez3 = _database.GetCustomer().FirstOrDefault(c => c.Email == cop_email);
 			if (rez3 != null)
 			{
 				TempData["error1"] = "Email " + cop_email + " вже зареєстрована";
@@ -54,12 +54,12 @@ namespace magazun.Controllers
 				FirstName = lastName2,
 				LastName = firstName2,
 				Email = cop_email
-				
+
 			};
 
 			_database.AddCustomer(newCustomer);
 
-			var cust=_database.GetCustomer().FirstOrDefault(c=>c.Email==cop_email);
+			var cust = _database.GetCustomer().FirstOrDefault(c => c.Email == cop_email);
 
 			var newLogin = new Login
 			{
@@ -67,7 +67,7 @@ namespace magazun.Controllers
 				Password = pasw2,
 				Role = "user",
 				idCustomer = cust.CustomerId,
-				customer= cust
+				customer = cust
 			};
 
 
@@ -86,7 +86,7 @@ namespace magazun.Controllers
 
 		//початкова сторінка (юзер)
 		[Route("Product/Index_product")]
-		[HttpPost ]
+		[HttpPost]
 		public IActionResult Index_product(string login_user, string pasw)//вхід
 		{
 			var rez = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user
@@ -115,7 +115,7 @@ namespace magazun.Controllers
 
 		//історія юзера
 		[HttpPost]
-		public IActionResult Histori(string lastName1, string firstName1, string role1,string login_user1,string pasw1)
+		public IActionResult Histori(string lastName1, string firstName1, string role1, string login_user1, string pasw1)
 		{
 			TempData["lastName"] = lastName1;
 			TempData["firstName"] = firstName1;
@@ -124,12 +124,12 @@ namespace magazun.Controllers
 			TempData["login_user"] = login_user1;
 			TempData["pasw"] = pasw1;
 
-			var login=_database.GetLogin().FirstOrDefault(l=>l.UserLogin== login_user1);
+			var login = _database.GetLogin().FirstOrDefault(l => l.UserLogin == login_user1);
 
-			
-			var customer=_database.GetCustomer()
-				.FirstOrDefault(c=>c.CustomerId==login.idCustomer);
-			
+
+			var customer = _database.GetCustomer()
+				.FirstOrDefault(c => c.CustomerId == login.idCustomer);
+
 
 			// Отримуємо всі ордери для знайденого користувача
 			var orders = _database.GetOrder()
@@ -154,7 +154,7 @@ namespace magazun.Controllers
 		[HttpPost]
 		public IActionResult AddOrder(int customerId, List<int> productIds)
 		{
-			
+
 			if (productIds == null || !productIds.Any())
 				return BadRequest("No products specified for the order.");
 
@@ -179,12 +179,12 @@ namespace magazun.Controllers
 			}
 		}
 
-		
+
 		//приймаємо дані для нового ордеру
 		[Route("Product/Index_product1")]
 		[HttpPost]
 		public IActionResult Index_product1([FromForm] string firstName, [FromForm] string lastName, [FromForm] List<int> masiv_product
-			,[FromForm] string role,string login_user1)
+			, [FromForm] string role, string login_user1)
 		{
 			var customer = _database.GetCustomer().FirstOrDefault(c => c.LastName == lastName && c.FirstName == firstName);
 
@@ -218,9 +218,9 @@ namespace magazun.Controllers
 		[Route("Product/EditProfilUser")]
 		[HttpPost]
 		public IActionResult EditProfilUser(string info_pasw, string info_login,
-			string info_lastName1,string info_firstName1, string info_email2)
+			string info_lastName1, string info_firstName1, string info_email2)
 		{
-			var login=_database.GetLogin().FirstOrDefault(l=>l.UserLogin== info_login);
+			var login = _database.GetLogin().FirstOrDefault(l => l.UserLogin == info_login);
 			if (login == null)
 			{
 				int qqq = 0;
@@ -237,7 +237,7 @@ namespace magazun.Controllers
 
 			var newLogin = new Login
 			{
-				Id=login.Id,
+				Id = login.Id,
 				UserLogin = info_login,
 				Password = info_pasw,
 				Role = "user",
@@ -257,7 +257,7 @@ namespace magazun.Controllers
 			TempData["email"] = info_email2;
 
 			return RedirectToAction("Index_product", "Product");
-			
+
 		}
 
 
