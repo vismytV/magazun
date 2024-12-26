@@ -209,10 +209,10 @@ function sotryvatu(id) {
         
     }
     else if (document.getElementById('radio2').checked == true) {
-
+        document.getElementById("sort").value = "name";
     }
     else if (document.getElementById('radio3').checked == true) {
-        document.getElementById("sort").value = "mani";//по замовченню
+        document.getElementById("sort").value = "mani";
     }
 
     form.submit();

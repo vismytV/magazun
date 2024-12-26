@@ -45,16 +45,29 @@ namespace magazun.Controllers
 				if (sort == "mani")
 				{
 					TempData["vubor_sort"] = "mani";
-					/*var orders = _database.GetOrder()
-					.ToList() // Загружаем данные в память
-					.OrderBy(o => o.TotalAmount) // Сортируем на стороне клиента
-					.ToList();*/
-
-
+					
 					//макс. сума 1)
 					//var orders = _database.GetOrder().OrderByDescending(o => o.TotalAmount).ToList();
 					var orders = _database.GetOrder().OrderBy(o => o.TotalAmount).ToList();//(1-min)
 					
+					ViewBag.Orders = orders;
+				}
+				else if (sort == "name")
+				{
+					TempData["vubor_sort"] = "name";
+					// сортування по імені клієнта (LastName та FirstName)
+					// Сначала загружаем ордера с клиентами
+					var ordersWithCustomers = _database.GetOrder()
+						.Include(o => o.Customer)  // Загружаем клиентов вместе с заказами
+						.ToList();
+
+					// Затем сортируем по фамилии и имени клиента
+					var orders = ordersWithCustomers
+						//.OrderBy(o => o.Customer.LastName)  // Сортируем по фамилии (1-я)
+						.OrderByDescending(o => o.Customer.LastName)//1-а
+						.ThenBy(o => o.Customer.FirstName) // Затем по имени
+						.ToList();
+
 					ViewBag.Orders = orders;
 				}
 				else

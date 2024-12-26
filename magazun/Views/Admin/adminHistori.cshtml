@@ -15,6 +15,7 @@
 
 	string vubor_sort_data = "";
 	string vubor_sort_mani = "";
+	string vubor_sort_name = "";
 
 	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
 
@@ -51,6 +52,10 @@
 			{
 				vubor_sort_mani = "checked";
 			}
+			else if (vubor_sort1 == "name")
+			{
+				vubor_sort_name = "checked";
+			}
 
 
 		
@@ -62,6 +67,7 @@
 <script>
 	kol_orders = @orders.Count();
 </script>
+
 
 <div>
 	<table class="table table-striped">
@@ -108,21 +114,30 @@
 	
 	<table class="table table-striped">
 		<thead>
+			<tr>
 				<td width="200px">
 					Дата
-					<input type="radio" name="radio" id="radio1" @vubor_sort_data onclick="sotryvatu(id)" />
-					</td>
+					<a title="Сортувати за датою покупки">
+					<input type="radio" name="radio" id="radio1" style="cursor:pointer" @vubor_sort_data onclick="sotryvatu(id)" />
+					</a>
+				</td>
 				<td>Покупець
-					<input type="radio" name="radio" id="radio2" onclick="sotryvatu(id)" />
+					<a title="Сортувати за Прізвищем та ім'ям">
+						<input type="radio" name="radio" id="radio2" style="cursor:pointer" @vubor_sort_name onclick="sotryvatu(id)" />
+					</a>
 				</td>
 				<td>Login</td>
 				<td width="500px">
 					Назва товару
-			<input type="checkbox" name="nazva_tovary" id="nazva_tovary" @pokaz_spisok1 onclick="pokaz_tovary_all()">
+					<a title="детальний показ покупок">
+					<input type="checkbox" name="nazva_tovary" style="cursor:pointer" id="nazva_tovary" @pokaz_spisok1 onclick="pokaz_tovary_all()">
+					</a>
 				</td>
 				<td width="100px">
 					Ціна
-					<input type="radio" name="radio" id="radio3" @vubor_sort_mani onclick="sotryvatu(id)" />
+					<a title="Сортувати за сумою покупки">
+						<input type="radio" name="radio" id="radio3" style="cursor:pointer" @vubor_sort_mani onclick="sotryvatu(id)" />
+					</a>
 				</td>
 			</tr>
 			
