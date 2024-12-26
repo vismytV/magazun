@@ -90,5 +90,13 @@ namespace magazun.Controllers
 			}
 			return View();
 		}
+
+		[Route("Admin/New_product")]
+		[HttpPost]
+		public IActionResult New_product(string name_tovar, double price_tovar, string opus_tovar)
+		{
+			// Якщо додавання успішне, повертаємо JSON відповідь
+			return Json(new { success = true });
+		}
 	}
 }

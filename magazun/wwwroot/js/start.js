@@ -217,3 +217,73 @@ function sotryvatu(id) {
 
     form.submit();
 }
+
+function new_tovar() {
+    document.getElementById('div_new_tovar').style.display = "block";
+    document.getElementById('new_tovar').style.display = "none";   
+}
+
+function add_tovar() {
+    //document.getElementById('add_tovar_admin').submit();
+    // Отримуємо значення з форми
+    var nameTovar = document.getElementById('name_tovar').value;
+    var priceTovar = parseFloat(document.getElementById('price_tovar').value);
+    var opusTovar = document.getElementById('opus_tovar').value;
+
+    // Створюємо об'єкт з даними форми
+    var formData = new FormData();
+    formData.append("name_tovar", nameTovar);
+    formData.append("price_tovar", priceTovar);
+    formData.append("opus_tovar", opusTovar);
+
+    // Виконуємо запит до сервера
+    fetch('/Admin/New_product', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())  // Очікуємо JSON-відповідь
+        .then(data => {
+            if (data.success) {
+                // Якщо запит успішний, можна зробити якусь дію
+                alert("Товар успішно додано!");
+                // Очистити форму після успішної відправки
+                document.getElementById('add_tovar_admin').reset();
+            } else {
+                // Якщо є помилка
+                alert("Сталася помилка при додаванні товару");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Сталася помилка. Спробуйте ще раз.");
+        });
+
+
+    nazad_tovar();
+    
+}
+
+function nazad_tovar() {
+    document.getElementById('div_new_tovar').style.display = "none";
+    document.getElementById('new_tovar').style.display = "block";
+
+    document.getElementById('name_tovar').value = "";
+    document.getElementById('price_tovar').value = "";
+    document.getElementById('opus_tovar').value = "";
+    document.getElementById('bt_add_tovar').style.disabled = true;
+    
+}
+
+function aktiv_btn_add() {
+
+    a1=document.getElementById('name_tovar').value;
+    a2=document.getElementById('price_tovar').value;
+    a3 = document.getElementById('opus_tovar').value;
+
+    if (a1 != "" && a2 != "" && a3 != "") {
+        document.getElementById('bt_add_tovar').disabled = false;
+    }
+    else {
+        document.getElementById('bt_add_tovar').disabled = true;
+    }
+}

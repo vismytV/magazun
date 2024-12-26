@@ -112,7 +112,32 @@
 		<button id="bt_zamovlenny" style=" display:@pokaz_button_zamovlenny; width:100%; "
 				class="btn btn-success" disabled onclick="zamovlenny()">Зробити замовлення
 		</button>
+
+		<button id="new_tovar" class="btn btn-primary" style="display:@pokaz_button_zamovlenny1" onclick="new_tovar()">Додати новий товар</button>
 	
+</div>
+
+@* додати новий товар *@
+<div id="div_new_tovar" style="display:none;background-color:cornsilk">
+	<form id="add_tovar_admin" method="post">
+			<div style="padding-top:10px;padding-left:10px;">
+	    <span style="margin-left:14px;">Введіть назву товару:</span>
+				<input type="text" id="name_tovar" name="name_tovar" required onkeyup="aktiv_btn_add()" />
+
+		<span>Введіть ціну:</span>
+				<input type="number" id="price_tovar" name="price_tovar" required onkeyup="aktiv_btn_add()" />
+	</div>
+			<div style="margin-top:5px;padding-left:10px;">
+			<span>Короткий опис товару:</span>
+				<input type="text" id="opus_tovar" name="opus_tovar" style="width: 100ch;max" maxlength="100" required onkeyup="aktiv_btn_add()" />
+	</div>
+			
+	</form>
+
+		<div style="margin-top:5px; padding-bottom:10px;padding-left:10px;">
+		<button id="bt_add_tovar" class="btn btn-success" onclick="add_tovar()" disabled>Додати новий товар</button>
+		<button style="margin-left:10px" class="btn btn-warning " onclick="nazad_tovar()">Відмінити</button>
+		</div>
 </div>
 
 @* показ списка товарів *@
@@ -142,7 +167,7 @@
 			}
 			
 		</tbody>
-	</table>
+		</table>
 	
 	
 </div>
@@ -154,7 +179,7 @@
 <div id="vxid_user" style="display:none">
 	<h2>Вітаємо на сайті NEW_SHOP</h2>
 	<strong><span id="sp_text">Вхід:</span></strong>
-	<form asp-controller="Product" asp-action="Index_product" method="post">
+	<form id="form_vxod" asp-controller="Product" asp-action="Index_product" method="post">
 	<div>
 		<span>Введіть логін: </span>
 			<input name="login_user" id="login_user" onkeyup="aktiv_button()" type="text" required />

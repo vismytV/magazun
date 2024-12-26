@@ -259,6 +259,8 @@ namespace magazun.Controllers
 			return RedirectToAction("Index_product", "Product");
 			
 		}
+
+
 	}
 
 
