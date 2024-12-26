@@ -1,6 +1,8 @@
 ﻿
 kol_tovar_vubor = 0;
 nom_vubor = [];
+
+
 function vxid1() {
     document.getElementById('all').style.display = "none";
     document.getElementById('vxid_user').style.display = "block";    
@@ -180,5 +182,38 @@ function vubor_admin1(vubor) {
 }
 
 function pokaz_tovary_all() {
-    alert(100);
+    st = "none";
+    if (document.getElementById('nazva_tovary').checked == true) {
+        st = "block";
+
+        document.getElementById('pokaz_spisok_tovar').value = "";
+    }
+    else {
+        document.getElementById('pokaz_spisok_tovar').value = "none";
+     
+    }
+
+    for (i = 1; i <= kol_orders; i++) {
+        name22 = "tovarName_" + i;
+        document.getElementById(name22).style.display = st;
+    }
+    
+}
+
+function sotryvatu(id) {
+    var form = document.getElementById("nazad");
+    form.setAttribute("action", "/Admin/adminHistori"); // Укажите нужный URL
+
+    if (document.getElementById('radio1').checked == true) {
+        document.getElementById("sort").value = "";//по замовченню
+        
+    }
+    else if (document.getElementById('radio2').checked == true) {
+
+    }
+    else if (document.getElementById('radio3').checked == true) {
+        document.getElementById("sort").value = "mani";//по замовченню
+    }
+
+    form.submit();
 }

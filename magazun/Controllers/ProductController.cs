@@ -10,6 +10,7 @@ namespace magazun.Controllers
 	{
 		private readonly IDatabase _database;
 
+		
 		public Product(IDatabase database)
 		{
 			_database = database;

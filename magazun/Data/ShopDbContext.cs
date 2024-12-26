@@ -80,8 +80,8 @@ namespace magazun.Data
 				Orders.Add(new Order
 				{
 					OrderDate = DateTime.Now,
-					CustomerId = 1,
-					TotalAmount = 1270,
+					CustomerId = 2,
+					TotalAmount = 1225,
 					OrderProducts = new List<OrderProduct>
 					{
 						new OrderProduct { ProductId = 1 }, // Laptop

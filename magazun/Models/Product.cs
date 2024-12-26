@@ -4,7 +4,7 @@
 	{
 		public int ProductId { get; set; } // первинний ключ
 		public string Name { get; set; } // Назва товару
-		public decimal Price { get; set; } // Ціна
+		public double Price { get; set; } // Ціна
 		public string? Description { get; set; } // Опис товару
 
 		// Зв'язок з таблицею Orders (Багато до багатьох)

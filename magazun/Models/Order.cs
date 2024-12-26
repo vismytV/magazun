@@ -5,7 +5,7 @@
 		public int OrderId { get; set; } // первинний ключ
 		public DateTime OrderDate { get; set; } // Дата замовлення
 		public int CustomerId { get; set; } // зовнішній ключ до Customers
-		public decimal TotalAmount { get; set; } // Загальна сума замовлення
+		public double TotalAmount { get; set; } // Загальна сума замовлення
 
 		// Зв'язок з таблицею Customer (Один до багатьох)
 		public Customer Customer { get; set; }

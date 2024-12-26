@@ -2,41 +2,66 @@
 
 @{
 	var orders = ViewBag.Orders as List<magazun.Models.Order>;
+
 	var customers = ViewBag.Customers as List<magazun.Models.Customer>;
+	var logins = ViewBag.Logins as List<magazun.Models.Login>;
+
 	string lastName = "";
 	string firstName = "";
 	string login_user1 = "";
 	string pasw1 = "";
+	string role = "admin";
+	string vubor_sort1 = "";
+
+	string vubor_sort_data = "";
+	string vubor_sort_mani = "";
 
 	string pokaz_button_zamovlenny = "none";//для показу кнопки і т.п
+
+	//bool pokaz_spisok = TempData["pokaz_spisok"] as bool? ?? true;
+	string pokaz_spisok1 = TempData["pokaz_spisok"].ToString();
+	string style_pokaz_spisok1 = "";
+	if (pokaz_spisok1 != "checked")
+	{
+		style_pokaz_spisok1 = "display: none";
+	}
 
 	string a = TempData["error1"].ToString();
 	if (a != "")
 	{
-			<script>
-				alert(@Json.Serialize(TempData["error1"]));
+				<script>
+					alert(@Json.Serialize(TempData["error1"]));
 		</script>
 	}
 	else
 	{
 		a = TempData["role"].ToString().ToLower();
-		if (a == "user")
-		{
-			pokaz_button_zamovlenny = "block";
-		}
 
-		if (a != "")
-		{
 			lastName = TempData["lastName"].ToString();
 			firstName = TempData["firstName"].ToString();
 			login_user1 = TempData["login_user"].ToString();
+			pasw1 = TempData["pasw"].ToString();
+			vubor_sort1 = TempData["vubor_sort"].ToString();
 
-			pasw1 = TempData["pasw"].ToString();			
-		}
+			if (vubor_sort1 == "")
+			{
+				vubor_sort_data = "checked";
+			}
+			else if (vubor_sort1 == "mani")
+			{
+				vubor_sort_mani = "checked";
+			}
+
+
+		
 	}
 }
 
 <script src="/js/start.js"></script>
+
+<script>
+	kol_orders = @orders.Count();
+</script>
 
 <div>
 	<table class="table table-striped">
@@ -56,10 +81,22 @@
 					<input name="firstName1" id="firstName1" type="text" value="@firstName" hidden />
 					<input name="lastName1" id="lastName1" type="text" value="@lastName" hidden />
 					<input name="login_user" id="login_user" type="text" value="@login_user1" hidden />
-					@* <input name="role1" id="role1" type="text" value="@role" hidden /> *@
+					<input name="role1" id="role1" type="text" value="@role" hidden />
 					<input name="pasw" id="pasw" type="text" value="@pasw1" hidden />
+					
+					
 					@* дані для повернення-------------- *@
 
+					@* дані для сортування++++++++++++++++ *@
+					
+					<input name="firstNameA" id="firstNameA" type="text" value="@firstName" hidden />
+					<input name="lastNameA" id="lastNameA" type="text" value="@lastName" hidden />
+					<input name="login_userA" id="login_userA" type="text" value="@login_user1" hidden />
+					<input name="paswA" id="paswA" type="text" value="@pasw1" hidden />
+					<input name="sort" id="sort" type="text" hidden />
+					<input name="vubor_admin" id="vubor_admin" type="text" hidden value="orders" />
+					<input name="pokaz_spisok_tovar" id="pokaz_spisok_tovar" type="text" hidden value=@pokaz_spisok1 />
+					@* дані для сортування------------------------- *@
 				<a title="назад"  >
 						<img src="~/img/nazad.PNG" width="40px" style="cursor:pointer" onclick="nazad_index2()"/>
 					</a>
@@ -71,50 +108,61 @@
 	
 	<table class="table table-striped">
 		<thead>
-			<tr>
-				<td>
+				<td width="200px">
 					Дата
+					<input type="radio" name="radio" id="radio1" @vubor_sort_data onclick="sotryvatu(id)" />
+					</td>
+				<td>Покупець
+					<input type="radio" name="radio" id="radio2" onclick="sotryvatu(id)" />
 				</td>
-				<td>
-					Покупець
-				</td>
-				<td >
+				<td>Login</td>
+				<td width="500px">
 					Назва товару
-					<input type="checkbox" name="checkbox" id="nazva_tovary" checked onclick="pokaz_tovary_all()">
+			<input type="checkbox" name="nazva_tovary" id="nazva_tovary" @pokaz_spisok1 onclick="pokaz_tovary_all()">
 				</td>
 				<td width="100px">
 					Ціна
+					<input type="radio" name="radio" id="radio3" @vubor_sort_mani onclick="sotryvatu(id)" />
 				</td>
 			</tr>
 			
 		</thead>
 		<tbody>
 			@{
+				int nom = 0;
 				foreach (var item in orders)
 				{
-						<tr>
-							<td>
-								@item.OrderDate
-							</td>
-							<td>
-							@{
+							<tr>
+								<td>
+									@item.OrderDate.Date.ToString("dd-MM-yyyy")
+								</td>
+								<td>
+								@{
 								var id_customer = item.CustomerId;
 								var customer = customers.FirstOrDefault(c => c.CustomerId == item.CustomerId);
-							}
-							<span>@customer.FirstName</span> <span>@customer.LastName</span>
-							</td>
-							<td>
-								<ul>
-									@foreach (var orderProduct in item.OrderProducts)
-								{
-										<li>@orderProduct.Product.Name - @orderProduct.Product.Price $</li>
+
+								var login = logins.FirstOrDefault(l => l.idCustomer == id_customer);
+
+								nom++;
+								string name_tovar = "tovarName_" + nom.ToString();
 								}
-								</ul>
-							</td>
-							<td>
-								@item.TotalAmount
-							</td>
-						</tr>
+									<span>@customer.FirstName</span> <span>@customer.LastName</span>
+								</td>
+								<td>
+									<span>@login.UserLogin</span>
+								</td>
+								<td >
+									<ul id="@name_tovar" style="@style_pokaz_spisok1">
+										@foreach (var orderProduct in item.OrderProducts)
+										{
+											<li>@orderProduct.Product.Name - @orderProduct.Product.Price $</li>
+										}
+									</ul>
+								</td>
+								<td>
+									@item.TotalAmount
+								</td>
+							</tr>
 				}
 			}
 			
@@ -125,7 +173,7 @@
 @{
 	if (orders.Count() == 0)
 	{
-		<span>Не має покупок</span>
+			<span>Не має покупок</span>
 	}
 }
 
