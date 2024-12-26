@@ -15,9 +15,9 @@
 	string role = TempData["error1"].ToString();
 	if ( role!= "")
 	{
-						<script>
-							alert(@Json.Serialize(TempData["error1"]));
-		</script>
+											<script>
+												alert(@Json.Serialize(TempData["error1"]));
+							</script>
 	}
 
 	if (TempData["role"]!=null)
@@ -43,12 +43,18 @@
 			role_user = TempData["role"].ToString();
 			pasw22 = TempData["pasw"].ToString();
 			user_imail = TempData["email"].ToString();
+
+			
 		}		
 	}
 }
 
 <script src="/js/start.js"></script>
 
+<script>
+	var login_user100 = "@Html.Raw(login_user)";
+	var pasw100 = "@Html.Raw(pasw22)";
+</script>
 
 <div id="all">
 	 @* переходи на вхід та регістрацію,вхід, замовлення та історію *@

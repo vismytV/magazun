@@ -23,7 +23,7 @@ namespace magazun.Controllers
 		[Route("Admin/adminHistori")]
 		[HttpPost]
 		public IActionResult adminHistori(string vubor_admin, string lastNameA, string firstNameA, string roleA,
-			string login_userA, string paswA,string sort="",string pokaz_spisok_tovar="checked")
+			string login_userA, string paswA, string sort = "", string pokaz_spisok_tovar = "checked")
 		{
 			TempData["lastName"] = lastNameA;
 			TempData["firstName"] = firstNameA;
@@ -45,11 +45,11 @@ namespace magazun.Controllers
 				if (sort == "mani")
 				{
 					TempData["vubor_sort"] = "mani";
-					
+
 					//макс. сума 1)
 					//var orders = _database.GetOrder().OrderByDescending(o => o.TotalAmount).ToList();
 					var orders = _database.GetOrder().OrderBy(o => o.TotalAmount).ToList();//(1-min)
-					
+
 					ViewBag.Orders = orders;
 				}
 				else if (sort == "name")
@@ -78,11 +78,11 @@ namespace magazun.Controllers
 
 					ViewBag.Orders = orders;
 				}
-				
-				var customers=_database.GetCustomer().ToList();
-				var logins=_database.GetLogin().ToList();
-				
-				
+
+				var customers = _database.GetCustomer().ToList();
+				var logins = _database.GetLogin().ToList();
+
+
 				ViewBag.Customers = customers;
 				ViewBag.Logins = logins;
 
@@ -95,6 +95,15 @@ namespace magazun.Controllers
 		[HttpPost]
 		public IActionResult New_product(string name_tovar, double price_tovar, string opus_tovar)
 		{
+
+			var new_tovar = new Product
+			{
+				Name = name_tovar,
+				Price = price_tovar,
+				Description = opus_tovar
+			};
+
+			_database.AddProduct(new_tovar);
 			// Якщо додавання успішне, повертаємо JSON відповідь
 			return Json(new { success = true });
 		}

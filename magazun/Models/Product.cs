@@ -9,5 +9,8 @@
 
 		// Зв'язок з таблицею Orders (Багато до багатьох)
 		public ICollection<OrderProduct> OrderProducts { get; set; }
+
+		
+
 	}
 }

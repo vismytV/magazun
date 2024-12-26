@@ -7,6 +7,8 @@ namespace magazun.Data
 	{
 		private readonly ShopDbContext _context;
 
+		
+		
 		public Database(ShopDbContext context)
 		{
 			_context = context;
@@ -17,6 +19,11 @@ namespace magazun.Data
 			_context.Customers.Add(customer); // Добавление клиента
 			_context.SaveChanges(); // Сохранение изменений в базе данных
 		}
+		/*void IDatabase.AddProduct(Product product)
+		{
+			_context.Products.Add(product);
+			_context.SaveChanges(); // Сохранение изменений в базе данных
+		}*/
 
 		void IDatabase.DeleteCustomer(int customerId)
 		{
@@ -68,7 +75,8 @@ namespace magazun.Data
 
 		void IDatabase.AddProduct(Product product)
 		{
-			throw new NotImplementedException();
+			_context.Products.Add(product); 
+			_context.SaveChanges(); // Сохранение изменений в базе данных
 		}
 
 		void IDatabase.EditProduct(Product product)

@@ -103,7 +103,8 @@ namespace magazun.Data
 				SaveChanges();
 			}
 
-			this.Database.EnsureCreated();
+			//this.Database.EnsureCreated();
+			this.Database.Migrate();
 		}
 
 		

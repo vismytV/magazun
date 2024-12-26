@@ -244,10 +244,16 @@ function add_tovar() {
         .then(response => response.json())  // Очікуємо JSON-відповідь
         .then(data => {
             if (data.success) {
-                // Якщо запит успішний, можна зробити якусь дію
                 alert("Товар успішно додано!");
-                // Очистити форму після успішної відправки
-                document.getElementById('add_tovar_admin').reset();
+                /*login_user100 = @login_user;
+                pasw100 = @pasw22;
+                lastName100 = @lastName;
+                firstName100 = @firstName;
+                email100 = @user_imail;*/
+                document.getElementById('login_user').value = login_user100;
+                document.getElementById('pasw').value = pasw100;
+
+                document.getElementById('form_vxod').submit();
             } else {
                 // Якщо є помилка
                 alert("Сталася помилка при додаванні товару");
@@ -259,11 +265,12 @@ function add_tovar() {
         });
 
 
-    nazad_tovar();
+    //nazad_tovar();
     
 }
 
 function nazad_tovar() {
+    
     document.getElementById('div_new_tovar').style.display = "none";
     document.getElementById('new_tovar').style.display = "block";
 
